@@ -1,0 +1,16 @@
+{
+  "name": "workflow_scheduler",
+  "version": "1.0.0",
+  "description": "Workflow deployment, cron/interval scheduling, webhook triggers, and execution history",
+  "author": "Logos Core Team",
+  "type": "core",
+  "category": "integration",
+  "main": "workflow_scheduler_plugin",
+  "dependencies": [],
+  "capabilities": [
+    "workflow_deployment",
+    "cron_scheduling",
+    "webhook_triggers",
+    "execution_history"
+  ]
+}

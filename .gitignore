@@ -1,0 +1,5 @@
+build/
+generated_code/
+*.o
+*.so
+*.dylib

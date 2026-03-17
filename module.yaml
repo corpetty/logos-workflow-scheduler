@@ -1,0 +1,20 @@
+name: workflow_scheduler
+version: 1.0.0
+type: core
+category: integration
+description: "Workflow deployment, cron/interval scheduling, webhook triggers, and execution history"
+
+dependencies:
+  - workflow_engine
+
+nix_packages:
+  build: []
+  runtime: []
+
+external_libraries: []
+
+cmake:
+  find_packages:
+    - "Qt6Network"
+  extra_sources: []
+  proto_files: []
