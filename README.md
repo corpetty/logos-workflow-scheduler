@@ -117,18 +117,24 @@ logos-workflow-scheduler/
 
 ### With Nix (recommended)
 
+The scheduler depends on `logos-workflow-engine` at build time (for generated API wrapper headers). The flake wires this up automatically — Nix fetches the engine (and transitively the registry) from GitHub.
+
 ```bash
 nix build
 ```
 
+Build order matters: **registry → engine → scheduler**. The engine and registry must be pushed to GitHub before the scheduler can build.
+
+Output: `result/lib/workflow_scheduler_plugin.so`
+
 ### With CMake
 
-Requires Qt6 with Network module.
+Requires `logos-module-builder` CMake helpers, Qt6 with the Network module, and `LogosModule.cmake` on your include path. Set `LOGOS_CPP_SDK_ROOT` and `LOGOS_LIBLOGOS_ROOT` to point to your SDK installations.
 
 ```bash
 mkdir build && cd build
-cmake .. -DCMAKE_PREFIX_PATH=/path/to/logos-core
-make -j$(nproc)
+cmake .. -GNinja
+ninja
 ```
 
 Output: `build/modules/workflow_scheduler_plugin.so`
