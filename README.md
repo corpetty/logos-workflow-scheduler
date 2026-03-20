@@ -33,9 +33,47 @@ The scheduler sits at the end of the dependency chain. You deploy a serialized w
 | Method | Returns | Description |
 |---|---|---|
 | `getSchedulerStatus()` | `QString` (JSON) | Active schedules, webhook port, uptime |
-| `getExecutionHistory(limit)` | `QString` (JSON array) | Recent execution log with timing and results |
+| `getExecutionHistory(limit)` | `QString` (JSON array) | Recent execution log with timing and results (capped at MAX_HISTORY=100 entries) |
 
 All parameters and return values are JSON-encoded strings.
+
+### Example Return Values
+
+**`listDeployedWorkflows()`**
+```json
+[
+  {
+    "workflowId": "my-workflow",
+    "name": "My Workflow",
+    "webhookUrl": "http://localhost:8081/webhooks/my-workflow"
+  }
+]
+```
+
+**`getSchedulerStatus()`**
+```json
+{
+  "deployedWorkflows": 3,
+  "activeIntervalTimers": 1,
+  "webhookPort": 8081,
+  "webhookRunning": true
+}
+```
+
+**`getExecutionHistory(limit)`**
+```json
+[
+  {
+    "workflowId": "my-workflow",
+    "triggerType": "timer",
+    "timestamp": 1711036800000,
+    "success": true,
+    "outputs": {}
+  }
+]
+```
+
+History is stored in memory as a ring buffer capped at **100 entries** (`MAX_HISTORY`). When the buffer is full, the oldest entry is evicted. History does not persist across restarts.
 
 ---
 
@@ -73,7 +111,7 @@ Persists deployed workflow JSON to `~/.local/share/logos/deployed-workflows/`. O
 
 ### `WebhookListener`
 
-A lightweight HTTP server built on `QTcpServer` that listens on port 8081 (configurable). Accepts `POST /webhooks/<workflowId>`, parses the JSON body and HTTP headers, and emits `webhookReceived` to fire the matching workflow. Handles only the minimum HTTP parsing needed for webhook payloads; not a general-purpose HTTP server.
+A lightweight HTTP server built on `QTcpServer` that listens on port 8081 by default. The port is configurable via the `LOGOS_WEBHOOK_PORT` environment variable. Accepts `POST /webhooks/<workflowId>`, parses the JSON body and HTTP headers, and emits `webhookReceived` to fire the matching workflow. Handles only the minimum HTTP parsing needed for webhook payloads; not a general-purpose HTTP server.
 
 ---
 
@@ -177,7 +215,9 @@ curl -X POST http://localhost:8081/webhooks/my-workflow \
 
 ## Persistence
 
-Deployed workflows are written to `~/.local/share/logos/deployed-workflows/<workflowId>.json`. The scheduler reloads and re-arms all persisted workflows on startup, so cron schedules and webhook listeners resume automatically after a process restart or system reboot.
+Deployed workflows are written to `~/.local/share/logos/deployed-workflows/<workflowId>.json` as individual JSON files, one per workflow. The scheduler reloads and re-arms all persisted workflows on startup via `DeploymentStore::loadAll()`, so cron schedules and webhook listeners resume automatically after a process restart or system reboot.
+
+The storage directory is determined by `QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)` with the `deployed-workflows` subdirectory appended. On Linux this resolves to `~/.local/share/logos/deployed-workflows/`.
 
 ---
 
