@@ -3,3 +3,5 @@ generated_code/
 *.o
 *.so
 *.dylib
+result
+result-*

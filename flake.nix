@@ -2,7 +2,12 @@
   description = "Logos Workflow Scheduler - Workflow deployment, cron scheduling, and webhook triggers";
 
   inputs = {
-    logos-module-builder.url = "github:logos-co/logos-module-builder";
+    # Pinned, not floating. The builder throws on `interface: "legacy"` for a
+    # core module that ships a plugin (lib/modulePreConfigure.nix) as of
+    # 2026-08-20; this module is a handcrafted Qt plugin, so it needs the last
+    # commit before that. Unpin once it is ported to `interface: "universal"`
+    # (a plain src/<name>_impl.h the generator derives the contract from).
+    logos-module-builder.url = "github:logos-co/logos-module-builder/f007edf1d7dc";
     nixpkgs.follows = "logos-module-builder/nixpkgs";
 
     # Module dependencies (from module.yaml)
@@ -16,8 +21,11 @@
   outputs = { self, logos-module-builder, nixpkgs, logos-workflow-engine }:
     logos-module-builder.lib.mkLogosModule {
       src = ./.;
-      configFile = ./module.yaml;
-      moduleInputs = {
+      configFile = ./metadata.json;
+      # `flakeInputs`, keyed by the DEPENDENCY name in metadata.json — the
+      # builder filters this set by those names (lib/mkLogosModule.nix).
+      # `moduleInputs` is not an argument mkLogosModule accepts.
+      flakeInputs = {
         workflow_engine = logos-workflow-engine;
       };
     };
