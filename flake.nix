@@ -7,7 +7,9 @@
 
     # Module dependencies (mirrors metadata.json#dependencies)
     logos-workflow-engine = {
-      url = "github:corpetty/logos-workflow-engine";
+      # On the modernize branch until it merges: master still carries the
+      # pre-universal engine, which publishes no .lidl contract.
+      url = "github:corpetty/logos-workflow-engine/modernize-phase0";
       inputs.logos-module-builder.follows = "logos-module-builder";
       inputs.nixpkgs.follows = "nixpkgs";
     };
