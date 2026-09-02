@@ -9,16 +9,21 @@ else()
     message(FATAL_ERROR "LogosModule.cmake not found")
 endif()
 
+# Universal module: the impl class IS the API; the glue is generated from
+# src/workflow_scheduler_impl.h.
 logos_module(
     NAME workflow_scheduler
     SOURCES
-        src/workflow_scheduler_interface.h
-        src/workflow_scheduler_plugin.h
-        src/workflow_scheduler_plugin.cpp
+        src/workflow_scheduler_impl.h
+        src/workflow_scheduler_impl.cpp
+        src/scheduler_runtime.h
+        src/scheduler_runtime.cpp
         src/cron_parser.h
         src/cron_parser.cpp
         src/webhook_listener.h
         src/webhook_listener.cpp
         src/deployment_store.h
         src/deployment_store.cpp
+    INCLUDE_DIRS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )

@@ -2,15 +2,10 @@
   description = "Logos Workflow Scheduler - Workflow deployment, cron scheduling, and webhook triggers";
 
   inputs = {
-    # Pinned, not floating. The builder throws on `interface: "legacy"` for a
-    # core module that ships a plugin (lib/modulePreConfigure.nix) as of
-    # 2026-08-20; this module is a handcrafted Qt plugin, so it needs the last
-    # commit before that. Unpin once it is ported to `interface: "universal"`
-    # (a plain src/<name>_impl.h the generator derives the contract from).
-    logos-module-builder.url = "github:logos-co/logos-module-builder/f007edf1d7dc";
+    logos-module-builder.url = "github:logos-co/logos-module-builder";
     nixpkgs.follows = "logos-module-builder/nixpkgs";
 
-    # Module dependencies (from module.yaml)
+    # Module dependencies (mirrors metadata.json#dependencies)
     logos-workflow-engine = {
       url = "github:corpetty/logos-workflow-engine";
       inputs.logos-module-builder.follows = "logos-module-builder";

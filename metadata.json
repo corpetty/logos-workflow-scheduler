@@ -1,9 +1,11 @@
 {
   "name": "workflow_scheduler",
+  "display_name": "Workflow Scheduler",
   "version": "1.0.0",
   "description": "Workflow deployment, cron/interval scheduling, webhook triggers, and execution history",
   "author": "Logos Core Team",
   "type": "core",
+  "interface": "universal",
   "category": "integration",
   "main": "workflow_scheduler_plugin",
   "dependencies": [
@@ -26,7 +28,8 @@
         "Qt6Network"
       ],
       "extra_sources": [],
-      "proto_files": []
+      "extra_include_dirs": [],
+      "extra_link_libraries": []
     }
   }
 }
