@@ -11390,16 +11390,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1788373913,
-        "narHash": "sha256-CBqhuwE1aMNAq3Tl20IdOm55ZgiUsfZ9O41CVFmNdco=",
+        "lastModified": 1788445331,
+        "narHash": "sha256-mIgthLnL5NkGCKPsvjac9LoaAmk2n0MVWQDoCBByNV4=",
         "owner": "corpetty",
         "repo": "logos-workflow-engine",
-        "rev": "8e07426253f052e5467049a409710c3dabf120ed",
+        "rev": "56821f05e2eae870d9773fa347c50c7ba13f9b82",
         "type": "github"
       },
       "original": {
         "owner": "corpetty",
-        "ref": "modernize-phase0",
         "repo": "logos-workflow-engine",
         "type": "github"
       }
@@ -11416,16 +11415,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1788359138,
-        "narHash": "sha256-UgwFGw+xgfHGLNn4Uq7nyNi6b+ve0wd89VdTagrAOFw=",
+        "lastModified": 1788444471,
+        "narHash": "sha256-yD8q9nWFPAWzZkri7O0a7eSoEPGpSLW2wqmO7IiQdbw=",
         "owner": "corpetty",
         "repo": "logos-workflow-registry",
-        "rev": "a1742d63c6775e7854cab745deb2eba90eb30d91",
+        "rev": "43e66d3ebb58178109736a739a2ebe6d43b50875",
         "type": "github"
       },
       "original": {
         "owner": "corpetty",
-        "ref": "modernize-phase0",
         "repo": "logos-workflow-registry",
         "type": "github"
       }
